@@ -3,6 +3,7 @@ import axios from "axios";
 
 // ----------------------------------------------------------------------
 
+const BACKEND_URL = process.env.BACKEND_URL;
 const initialState = {
   isLoading: false,
   randomUsers: [],
@@ -105,14 +106,14 @@ export const fetchRandomUsers = (id) => async (dispatch) => {
 export const fetchSavedUsers = (id) => async (dispatch) => {
   dispatch(startLoading());
   try {
-    const response = await axios.get("http://localhost:8000/user");
+    const response = await axios.get(`${BACKEND_URL}/user`);
     dispatch(getSavedUsersSuccess(response.data));
   } catch (error) {}
 };
 
 export const upsertUser = (user) => async (dispatch) => {
   try {
-    await axios.post("http://localhost:8000/user", user);
+    await axios.post(`${BACKEND_URL}/user`, user);
     dispatch(onCloseDialog());
     dispatch(fetchSavedUsers());
   } catch (err) {}
@@ -120,7 +121,7 @@ export const upsertUser = (user) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:8000/user/${id}`);
+    await axios.delete(`http://${BACKEND_URL}user/${id}`);
     dispatch(onCloseDialog());
     dispatch(fetchSavedUsers());
   } catch (err) {}
