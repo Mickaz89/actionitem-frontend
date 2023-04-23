@@ -121,7 +121,7 @@ export const upsertUser = (user) => async (dispatch) => {
 
 export const deleteUser = (id) => async (dispatch) => {
   try {
-    await axios.delete(`http://${BACKEND_URL}user/${id}`);
+    await axios.delete(`${BACKEND_URL}/user/${id}`);
     dispatch(onCloseDialog());
     dispatch(fetchSavedUsers());
   } catch (err) {}

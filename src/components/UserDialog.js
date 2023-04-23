@@ -15,10 +15,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export const UserDialog = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const open = useSelector((state) => state.user.dialog);
   const selectedUser = useSelector((state) => state.user.selectedUser);
@@ -31,6 +33,11 @@ export const UserDialog = () => {
       );
     }
   }, [selectedUser]);
+
+  const onSave = () => {
+    dispatch(upsertUser(selectedUser));
+    router.push("history");
+  };
 
   return (
     <Dialog open={open} onClose={() => dispatch(onCloseDialog())} fullWidth>
@@ -102,7 +109,7 @@ export const UserDialog = () => {
             <Button
               disabled={dispatch(isSaved())}
               variant="outlined"
-              onClick={() => dispatch(upsertUser(selectedUser))}
+              onClick={onSave}
             >
               Save
             </Button>
